@@ -6,6 +6,10 @@ function Home() {
   const [FinalDate, setFinalDate] = useState('');
   const [Resfetch, setResfetch] = useState([]);
 
+  const handleDelete = (updatedClients) => {
+    setResfetch(updatedClients); // Atualize o estado dos clientes com a nova lista
+  };
+
   const getData = async () => {
     try {
       const response = await fetch('https://fakerapi.it/api/v1/persons');
@@ -62,7 +66,7 @@ function Home() {
                   <button type="button" className="btn btn-secondary p-2" onClick={getData}>Pesquisar</button>
                 </div>
               </form>
-              <SearchResults clients={Resfetch} />
+              <SearchResults clients={Resfetch} onDelete={handleDelete} />
             </div>
           </div>
         </div>
