@@ -1,8 +1,35 @@
-# React + Vite
+## Invoices_Payments
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an application inserted in a financial context with the aim of facilitating the tracking of customer payment invoices.
 
-Currently, two official plugins are available:
+## Functionalities
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Filter by date of birth
+- Display of customer data
+- PDF download of desired invoices.
+
+## Running locally
+
+Clone o projeto
+
+```bash
+  git clone https://github.com/Dav1dSo/API_CLIENT.git
+```
+
+Entre no diretório do projeto
+
+```bash
+  cd Invoices_Payments
+```
+
+Instale as dependências
+
+```bash
+  npm install
+```
+
+Inicie o servidor
+
+```bash
+  npm run dev
+```
