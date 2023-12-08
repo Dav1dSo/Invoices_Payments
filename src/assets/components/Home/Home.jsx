@@ -1,11 +1,12 @@
 import { useState } from "react";
-import SearchResults from "../ListClients/ListClients";
+import ListClients from "../ListClients/ListClients";
 
 function Home() {
   const [InitialDate, setInitialDate] = useState('');
   const [FinalDate, setFinalDate] = useState('');
   const [CardsCredit, setCardsCredit] = useState([]);
   const [Resfetch, setResfetch] = useState([]);
+  const [Produtos, setProducts] = useState([]);
   
   const handleDelete = (updatedClients) => {
     setResfetch(updatedClients); 
@@ -25,6 +26,11 @@ function Home() {
 
       const response = await fetch('https://fakerapi.it/api/v1/persons');
       const res = await response.json();
+                   
+      const responseProducts = await fetch('https://fakerapi.it/api/v1/products');
+      const resDataProducts = await responseProducts.json();
+
+      setProducts(resDataProducts.data);
       
       if (Array.isArray(res.data)) {
         const filteredData = res.data.filter(client => {
@@ -74,7 +80,7 @@ function Home() {
                   <button type="button" className="btn btn-secondary p-2" onClick={getData}>Pesquisar</button>
                 </div>
               </form>
-              <SearchResults clients={Resfetch} cardsCredits={CardsCredit} onDelete={handleDelete} onSelect={handleSelect}/>
+              <ListClients produtos={Produtos} clients={Resfetch} cardsCredits={CardsCredit} onDelete={handleDelete} onSelect={handleSelect}/>
             </div>
           </div>
         </div>
