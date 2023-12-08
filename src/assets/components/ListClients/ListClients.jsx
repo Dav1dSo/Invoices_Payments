@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import GeneratePDF from "../GeneratePDF/GeneratePDF";
 
 const ClientsList = ({ cardsCredits, clients, onDelete }) => {
 
@@ -73,9 +74,8 @@ const ClientsList = ({ cardsCredits, clients, onDelete }) => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Fechar
-          </Button>
+          <Button variant="secondary" onClick={handleClose}> Fechar </Button>
+          <GeneratePDF/>
         </Modal.Footer>
       </Modal>
 
