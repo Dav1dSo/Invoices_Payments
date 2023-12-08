@@ -75,7 +75,7 @@ const ClientsList = ({ cardsCredits, clients, onDelete }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}> Fechar </Button>
-          <GeneratePDF/>
+          <GeneratePDF clients={selectedClient } cardsCredits={cardsCredits} />
         </Modal.Footer>
       </Modal>
 
@@ -86,4 +86,4 @@ const ClientsList = ({ cardsCredits, clients, onDelete }) => {
   );
 };
 
-export default ClientsList;
+export default ClientsList; 
