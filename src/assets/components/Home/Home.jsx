@@ -4,26 +4,34 @@ import SearchResults from "../ListClients/ListClients";
 function Home() {
   const [InitialDate, setInitialDate] = useState('');
   const [FinalDate, setFinalDate] = useState('');
+  const [CardsCredit, setCardsCredit] = useState([]);
   const [Resfetch, setResfetch] = useState([]);
-
+  
   const handleDelete = (updatedClients) => {
-    setResfetch(updatedClients); // Atualize o estado dos clientes com a nova lista
+    setResfetch(updatedClients); 
+  };
+
+  const handleSelect = (client) => {
+    console.log('Cliente selecionado:', client);
   };
 
   const getData = async () => {
     try {
+      const resCards_credits = await fetch('https://fakerapi.it/api/v1/credit_cards');
+      const resCards = await resCards_credits.json();
+      const cardCredits = resCards.data;
+
+      setCardsCredit(cardCredits);
+
       const response = await fetch('https://fakerapi.it/api/v1/persons');
       const res = await response.json();
-     
+      
       if (Array.isArray(res.data)) {
         const filteredData = res.data.filter(client => {
-        const clientDate = client.birthday;  
-
-        return clientDate >= InitialDate && clientDate <= FinalDate;
+          const clientDate = client.birthday;  
+          return clientDate >= InitialDate && clientDate <= FinalDate;
       });
-
         setResfetch(filteredData)
-
       } else {
         throw new Error('Error inesperado');
       }
@@ -31,7 +39,7 @@ function Home() {
       console.error('Erro ao buscar dados:', error);
     }
   };
-
+  
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4"> <span className="text-warning">$</span> Invoices_Payments <span className="text-warning">$</span> </h1>
@@ -66,7 +74,7 @@ function Home() {
                   <button type="button" className="btn btn-secondary p-2" onClick={getData}>Pesquisar</button>
                 </div>
               </form>
-              <SearchResults clients={Resfetch} onDelete={handleDelete} />
+              <SearchResults clients={Resfetch} cardsCredits={CardsCredit} onDelete={handleDelete} onSelect={handleSelect}/>
             </div>
           </div>
         </div>
