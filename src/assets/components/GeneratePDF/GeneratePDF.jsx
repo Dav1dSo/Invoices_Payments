@@ -23,7 +23,7 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
     doc.text(" $ Invoices_Payments $ ", 8, yPos);
     yPos += 10; 
 
-    const drawAdressBox = (text, x, y, width, height, marginBottom, borderRadius) => {
+    const drawAdressBox = (text, x, y, width, height, marginBottom, borderRadius) => { 
       doc.setFillColor(219, 223, 230);
       doc.roundedRect(x, y, width, height, borderRadius, borderRadius, 'F');
       doc.setFontSize(13); 
