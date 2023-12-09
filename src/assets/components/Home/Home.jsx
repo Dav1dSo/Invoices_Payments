@@ -24,7 +24,7 @@ function Home() {
 
       setCardsCredit(cardCredits);
 
-      const response = await fetch('https://fakerapi.it/api/v1/persons');
+      const response = await fetch('https://fakerapi.it/api/v1/persons?_quantity=20');
       const res = await response.json();
                    
       const responseProducts = await fetch('https://fakerapi.it/api/v1/products');
