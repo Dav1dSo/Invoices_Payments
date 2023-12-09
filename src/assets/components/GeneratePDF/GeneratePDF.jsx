@@ -5,7 +5,13 @@ import 'jspdf-autotable';
 const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
 
   const generatePDF = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF({
+      // Define um estilo para o PDF
+      background: { // Define o fundo como transparente
+        backgroundColor: 'transparent'
+      }
+    });
+    
     let yPos = 10;
 
     const logoWidth = 30; 
@@ -118,9 +124,10 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
         },
       });
     
-
+      
 
       const finalY = doc.autoTable.previous.finalY;
+      
       const marginTop = 10; 
       const marginRight = 10; 
 
@@ -151,14 +158,17 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
     drawContactBox('', contactX, contactBoxY, 90, 30, 15, 5);
     doc.text(getContactDetails(), contactX + 7, contactBoxY + 12);
     
-    drawClientBilledBox('', clientInfoX, clientInfoY, 190, 80, 10, 5);
     doc.text(' ', clientInfoX + 7, clientInfoY + 12);
     doc.text(getClientDetails(), clientInfoX + 7, clientInfoY + 0); 
     drawInvoiceTable();
 
     yPos += 10;
 
-    doc.save("clients.pdf");
+    const blob = new Blob([doc.output('blob')], { type: 'application/pdf' });
+    const pdfURL = URL.createObjectURL(blob);
+    window.open(pdfURL, '_blank');
+    URL.revokeObjectURL(pdfURL);
+
   };
 
   return (
