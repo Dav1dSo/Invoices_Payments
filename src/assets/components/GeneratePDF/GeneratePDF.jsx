@@ -6,8 +6,7 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
 
   const generatePDF = () => {
     const doc = new jsPDF({
-      // Define um estilo para o PDF
-      background: { // Define o fundo como transparente
+      background: { 
         backgroundColor: 'transparent'
       }
     });
@@ -43,16 +42,6 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
       doc.rect(x, y, width, 0.5, 'F'); 
     };
     
-    const drawClientBilledBox = (text, x, y, width, height, marginBottom, borderRadius) => {
-      doc.setFillColor(255, 255, 255, 0);
-      doc.roundedRect(x, y, width, height, borderRadius, borderRadius, 'F');
-      doc.setFontSize(13); 
-      doc.setTextColor(0, 0, 0);
-      doc.text(text, x + 2, y + 10); 
-      y += marginBottom;
-      doc.rect(x, y, width, 0.5, 'F'); 
-    };
-
     const getAddressDetails = () => {
       const addressDetails = [
         `${clients.address.buildingNumber} ${clients.address.streetName}`,
@@ -83,7 +72,87 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
       ];
       return clientDetails.join('\n');
     };
-    const drawInvoiceTable = () => {
+
+    const drawGraySquare = () => {
+      const squareWidth = 80;
+      const squareHeight = 50; 
+      const squareX = 10;
+      const squareY = 240;
+    
+      doc.rect(squareX, squareY, squareWidth, squareHeight);
+    
+      doc.setFontSize(10);
+      doc.setTextColor(0);
+      const textX = squareX + 5;
+      let textY = squareY + 5;
+      doc.setFontSize(12); 
+      doc.text("INVOICE", textX, textY);
+      doc.setFontSize(10); 
+      textY += 8; 
+      doc.text("Invoice number", textX, textY);
+      textY += 6; 
+      
+      const invoiceNumber = "2356625";
+
+      const numberRectX = textX - 1;
+      const numberRectY = textY - 4; 
+      const numberRectWidth = doc.getStringUnitWidth(invoiceNumber) * 4;
+      const numberRectHeight = 5; 
+      doc.setFillColor(219, 223, 230); 
+      doc.rect(numberRectX, numberRectY, numberRectWidth, numberRectHeight, 'F'); 
+    
+      
+      doc.setTextColor(0);
+      doc.text(invoiceNumber, textX, textY);
+
+
+      textY += 8; 
+      doc.text("Date of issue:", textX, textY);
+
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}-${
+        (currentDate.getMonth() + 1).toString().padStart(2, '0')
+      }-${currentDate.getFullYear()}`;
+
+      textY += 6;
+      
+      const rectX = textX - 2; 
+      const rectY = textY - 4; 
+      const rectWidth = doc.getStringUnitWidth(`Date of issue: ${formattedDate}`) * 2 ; // Largura baseada no texto
+      const rectHeight = 5; 
+      doc.setFillColor(219, 223, 230); 
+      doc.rect(rectX, rectY, rectWidth, rectHeight, 'F'); 
+
+      doc.setTextColor(0);
+      doc.text(`${formattedDate}`, textX, textY);
+    };
+    
+    
+    const drawDueDate = () => {
+      const currentDate = new Date();
+      let dueDate = new Date(currentDate);
+
+      dueDate.setDate(dueDate.getDate() + 3);
+
+      while (dueDate.getDay() === 0 || dueDate.getDay() === 6) {
+        dueDate.setDate(dueDate.getDate() + 1);
+      }
+
+      const formattedDueDate = `${dueDate.getDate().toString().padStart(2, '0')}-${
+        (dueDate.getMonth() + 1).toString().padStart(2, '0')
+      }-${dueDate.getFullYear()}`;
+
+      const totalPages = doc.internal.getNumberOfPages();
+      const lastPageHeight = doc.internal.pageSize.height;
+      const marginLeft = 12;
+      doc.setPage(totalPages);
+
+      doc.setFontSize(12);
+      doc.setTextColor(184, 20, 20);
+      doc.text(`Pague a fatura até a data ${formattedDueDate}`, marginLeft, lastPageHeight - 10, { align: 'left' });
+    };
+
+      const drawInvoiceTable = () => {
       const startY = clientInfoY + 30;
       const columns = ["name", "Unit cost", "QTY/HR Rate", "Amount"];
     
@@ -124,8 +193,6 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
         },
       });
     
-      
-
       const finalY = doc.autoTable.previous.finalY;
       
       const marginTop = 10; 
@@ -161,8 +228,10 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
     doc.text(' ', clientInfoX + 7, clientInfoY + 12);
     doc.text(getClientDetails(), clientInfoX + 7, clientInfoY + 0); 
     drawInvoiceTable();
-
+    drawGraySquare();
+    
     yPos += 10;
+    drawDueDate();
 
     const blob = new Blob([doc.output('blob')], { type: 'application/pdf' });
     const pdfURL = URL.createObjectURL(blob);
