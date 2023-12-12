@@ -7,29 +7,33 @@ function Home() {
   const [CardsCredit, setCardsCredit] = useState([]);
   const [Resfetch, setResfetch] = useState([]);
   const [Produtos, setProducts] = useState([]);
+  const [noCLients, setnoCLients] = useState(false);
+  const [loading, setLoading] = useState(false);
   
   const handleDelete = (updatedClients) => {
     setResfetch(updatedClients); 
   };
-
+  
   const handleSelect = (client) => {
     console.log('Cliente selecionado:', client);
   };
-
+  
   const getData = async () => {
     try {
+      setLoading(true);
+
       const resCards_credits = await fetch('https://fakerapi.it/api/v1/credit_cards');
       const resCards = await resCards_credits.json();
       const cardCredits = resCards.data;
-
+      
       setCardsCredit(cardCredits);
-
-      const response = await fetch('https://fakerapi.it/api/v1/persons?_quantity=20');
+      
+      const response = await fetch('https://fakerapi.it/api/v1/persons?_quantity=1000');
       const res = await response.json();
-                   
+      
       const responseProducts = await fetch('https://fakerapi.it/api/v1/products');
       const resDataProducts = await responseProducts.json();
-
+      
       setProducts(resDataProducts.data);
       
       if (Array.isArray(res.data)) {
@@ -38,13 +42,16 @@ function Home() {
           return clientDate >= InitialDate && clientDate <= FinalDate;
       });
         setResfetch(filteredData)
+        filteredData.length > 0 ? '' : setnoCLients(true);
+        setLoading(false);
       } else {
         throw new Error('Error inesperado');
       }
     } catch (error) {
+      setLoading(false);
       console.error('Erro ao buscar dados:', error);
     }
-  };
+};
   
   return (
     <div className="container mt-5">
@@ -80,17 +87,17 @@ function Home() {
                   <button type="button" className="btn btn-secondary p-2" onClick={getData}>Pesquisar</button>
                 </div>
               </form>
-              <ListClients produtos={Produtos} clients={Resfetch} cardsCredits={CardsCredit} onDelete={handleDelete} onSelect={handleSelect}/>
+              {!loading && <ListClients produtos={Produtos} clients={Resfetch} cardsCredits={CardsCredit} onDelete={handleDelete} onSelect={handleSelect}/>}
+              {loading && <h4 className="text-center mt-3 text-secondary">Carregando...</h4>}
+              {!loading && noCLients &&(
+                <h4 className="text-secondary text-center">Nenhum cliente encontrado com essa data.</h4>
+              )}
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-  
-  
-  
-
 }
 
 export default Home;
