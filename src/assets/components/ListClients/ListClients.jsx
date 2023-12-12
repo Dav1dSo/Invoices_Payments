@@ -57,7 +57,6 @@ const ClientsList = ({ cardsCredits, clients, onDelete, produtos }) => {
             <ul>
               <li>ID: {selectedClient.id}</li>
               <li>Nome Completo: {selectedClient.firstname} {selectedClient.lastname}</li>
-              <li>Data de Nascimento: {selectedClient.birthday}</li>
               <li>Email: {selectedClient.email}</li>
               <li>Data de nascimento: {DataFormat(selectedClient.birthday)}</li>
               <li>Telefone: {selectedClient.phone}</li>
