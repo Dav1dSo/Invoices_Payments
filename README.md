@@ -13,7 +13,7 @@ This is an application inserted in a financial context with the aim of facilitat
 Clone o projeto
 
 ```bash
-  git clone https://github.com/Dav1dSo/API_CLIENT.git
+  git clone https://github.com/Dav1dSo/Invoices_Payments.git
 ```
 
 Entre no diretório do projeto
