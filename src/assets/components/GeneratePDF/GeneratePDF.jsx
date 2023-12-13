@@ -170,8 +170,8 @@ const GeneratePDF = ({ produtos, clients, company, imageCompany }) => {
       const data = produtos.map(produto => [
         produto.name,
         `$${produto.price}`,
-        '1',
-        `$${produto.price}`,
+        Math.floor(Math.random() * 10) + 1,
+        `$${(produto.price * (Math.floor(Math.random() * 10) + 1)).toFixed(2)}`,
       ]);
     
       doc.setFont("helvetica", "bold");
