@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import GeneratePDF from "../GeneratePDF/GeneratePDF";
 
-const ClientsList = ({ cardsCredits, clients, onDelete, produtos }) => {
+const ClientsList = ({ cardsCredits, clients, onDelete, produtos, company, imageCompany }) => {
 
     const DataFormat = (data) => {
       const dataFormatada = new Date(data);
@@ -76,7 +76,7 @@ const ClientsList = ({ cardsCredits, clients, onDelete, produtos }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}> Fechar </Button>
-          <GeneratePDF produtos={produtos} clients={selectedClient } cardsCredits={cardsCredits} />
+          <GeneratePDF produtos={produtos} clients={selectedClient } imageCompany={imageCompany} company={company} cardsCredits={cardsCredits} />
         </Modal.Footer>
       </Modal>
 

@@ -9,7 +9,9 @@ function Home() {
   const [Produtos, setProducts] = useState([]);
   const [noCLients, setnoCLients] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+  const [Company, setCompany] = useState(false);
+  const [ImageCompany, setImageCompany] = useState(false);
+
   const handleDelete = (updatedClients) => {
     setResfetch(updatedClients); 
   };
@@ -35,6 +37,22 @@ function Home() {
       const resDataProducts = await responseProducts.json();
       
       setProducts(resDataProducts.data);
+
+      const resCompany = await fetch('https://fakerapi.it/api/v1/companies?_quantity=1');
+      const resDataCompany = await resCompany.json();
+      
+      setCompany(resDataCompany.data);
+
+      console.log(Company);
+
+      //
+
+      const resImageCompany = await fetch('https://fakerapi.it/api/v1/images?_quantity=10&_type=kittens&');
+      const resDataImageCompany = await resImageCompany.json();
+      
+      setImageCompany(resDataImageCompany.data);
+
+      //
       
       if (Array.isArray(res.data)) {
         const filteredData = res.data.filter(client => {
@@ -87,7 +105,7 @@ function Home() {
                   <button type="button" className="btn btn-secondary p-2" onClick={getData}>Pesquisar</button>
                 </div>
               </form>
-              {!loading && <ListClients produtos={Produtos} clients={Resfetch} cardsCredits={CardsCredit} onDelete={handleDelete} onSelect={handleSelect}/>}
+              {!loading && <ListClients produtos={Produtos} clients={Resfetch} cardsCredits={CardsCredit} imageCompany={ImageCompany} company={Company} onDelete={handleDelete} onSelect={handleSelect}/>}
               {loading && <h4 className="text-center mt-3 text-secondary">Carregando...</h4>}
               {!loading && noCLients &&(
                 <h4 className="text-secondary text-center">Nenhum cliente encontrado com essa data.</h4>

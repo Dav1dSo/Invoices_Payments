@@ -1,8 +1,7 @@
 import jsPDF from 'jspdf';
-import Logo from '/public/imgs/LogoElevaty.jpg';
 import 'jspdf-autotable';
 
-const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
+const GeneratePDF = ({ produtos, clients, company, imageCompany }) => {
 
   const generatePDF = () => {
     const doc = new jsPDF({
@@ -18,9 +17,9 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
     const logoX = 160; 
     const logoY = yPos + 2;
 
-    doc.addImage(Logo, 'PNG', logoX, logoY, logoWidth, logoHeight);
+    doc.addImage(`${imageCompany[0].url}`, 'PNG', logoX, logoY, logoWidth, logoHeight);
 
-    doc.text(" $ Invoices_Payments $ ", 8, yPos);
+    doc.text(`${company[0].name}`, 8, yPos);
     yPos += 10; 
 
     const drawAdressBox = (text, x, y, width, height, marginBottom, borderRadius) => { 
@@ -185,11 +184,16 @@ const GeneratePDF = ({ produtos, clients, cardsCredits }) => {
           halign: 'center',
           margin: { top: 5 },
         },
+        headStyles: {
+          fillColor: [94,112,122],
+          textColor: [255,255,255], 
+          fontStyle: 'bold',
+        },
         columnStyles: {
-          0: { fillColor: [211, 211, 211] }, // Descrição
-          1: { fillColor: [211, 211, 211] }, // Valor Unid.
-          2: { fillColor: [211, 211, 211] }, // Quantidade
-          3: { fillColor: [211, 211, 211] }, // Total
+          0: { fillColor: [233, 238, 251] },
+          1: { fillColor: [233, 238, 251] },
+          2: { fillColor: [233, 238, 251] },
+          3: { fillColor: [233, 238, 251] }
         },
       });
     
