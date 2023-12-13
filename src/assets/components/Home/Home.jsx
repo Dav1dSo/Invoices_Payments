@@ -43,17 +43,11 @@ function Home() {
       
       setCompany(resDataCompany.data);
 
-      console.log(Company);
-
-      //
-
       const resImageCompany = await fetch('https://fakerapi.it/api/v1/images?_quantity=10&_type=kittens&');
       const resDataImageCompany = await resImageCompany.json();
       
       setImageCompany(resDataImageCompany.data);
 
-      //
-      
       if (Array.isArray(res.data)) {
         const filteredData = res.data.filter(client => {
           const clientDate = client.birthday;  

@@ -17,7 +17,14 @@ const GeneratePDF = ({ produtos, clients, company, imageCompany }) => {
     const logoX = 160; 
     const logoY = yPos + 2;
 
-    doc.addImage(`${imageCompany[0].url}`, 'PNG', logoX, logoY, logoWidth, logoHeight);
+    let img = new Image();
+      img.onload = function() {
+        doc.addImage(`${imageCompany[0].url}`, 'PNG', logoX, logoY, logoWidth, logoHeight);
+      };
+      img.onerror = function() {
+        console.log('Imagem indisponível');
+      };
+      img.src = `${imageCompany[0].url}`;
 
     doc.text(`${company[0].name}`, 8, yPos);
     yPos += 10; 
