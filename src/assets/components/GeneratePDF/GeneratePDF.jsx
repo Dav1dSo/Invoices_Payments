@@ -153,7 +153,7 @@ const GeneratePDF = ({ produtos, clients, company, imageCompany }) => {
 
       const drawInvoiceTable = () => {
       const startY = clientInfoY + 30;
-      const columns = ["name", "Unit cost", "QTY/HR Rate", "Amount"];
+      const columns = ["Description", "Unit cost", "QTY/HR Rate", "Amount"];
     
       let subtotal = 0; 
     
