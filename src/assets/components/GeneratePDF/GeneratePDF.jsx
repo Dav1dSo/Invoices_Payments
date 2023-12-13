@@ -167,12 +167,16 @@ const GeneratePDF = ({ produtos, clients, company, imageCompany }) => {
     
       const valorTaxa = ((parseFloat(subtotal) - parseFloat(desconto)) * (porcentagemTaxa / 100)).toFixed(2);
     
-      const data = produtos.map(produto => [
-        produto.name,
-        `$${produto.price}`,
-        Math.floor(Math.random() * 10) + 1,
-        `$${(produto.price * (Math.floor(Math.random() * 10))).toFixed(2)}`,
-      ]);
+      const data = produtos.map(produto => {
+        const quantity = Math.floor(Math.random() * 10) + 1;
+        const amount = `$${(produto.price * quantity).toFixed(2)}`;
+        return [
+          produto.name,
+          `$${produto.price}`,
+          quantity,
+          amount,
+        ];
+      });
     
       doc.setFont("helvetica", "bold");
       doc.autoTable({
