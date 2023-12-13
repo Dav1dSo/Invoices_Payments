@@ -62,11 +62,13 @@ const ClientsList = ({ cardsCredits, clients, onDelete, produtos }) => {
               <li>Telefone: {selectedClient.phone}</li>
               <li>Endereço: {selectedClient.address.street}</li>
               <li>
-              <h5 className="mt-1">Cartões:</h5>
+              <h5 className="mt-4">Cartão:</h5>
               </li>
               {cardsCredits.map((card, index) => (
                 <ul key={index}> 
-                  <li>{card.type}</li>
+                  <li>Número do Cartão: {card.number}</li>
+                  <li>Data de Expiração: {DataFormat(card.expiration)}</li>
+                  <li>Bandeira: {card.type}</li>
                 </ul>
               ))}  
             </ul>

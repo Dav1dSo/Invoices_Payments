@@ -22,7 +22,7 @@ function Home() {
     try {
       setLoading(true);
 
-      const resCards_credits = await fetch('https://fakerapi.it/api/v1/credit_cards');
+      const resCards_credits = await fetch('https://fakerapi.it/api/v1/credit_cards?_quantity=1');
       const resCards = await resCards_credits.json();
       const cardCredits = resCards.data;
       
